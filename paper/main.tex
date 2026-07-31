@@ -1,0 +1,349 @@
+% =====================================================
+% TFM — Maestría en Robótica e Inteligencia Artificial (PRIA) — UTEC
+% Framework Open-Source Distribuido para Monitoreo Predictivo Industrial
+% de Motores de Inducción mediante Edge AI y Arquitecturas de Atención Temporal
+% Autor: Juan Pedro de León Sum
+% Adaptado desde la plantilla base de Teixeira V. (v1.1, 24/03/2021)
+% =====================================================
+
+\documentclass[11pt]{article}
+\usepackage{indentfirst}
+\usepackage[spanish,es-tabla,es-ucroman]{babel}
+
+\usepackage{calc}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{pgfplotstable}
+\usepackage{natbib}
+\usepackage{url}
+\usepackage{enumerate}
+\graphicspath{{figuras/}}
+\usepackage{parskip}
+\usepackage{fancyhdr}
+\usepackage{vmargin}
+\usepackage{changepage}
+\usepackage{xcolor}
+\usepackage{multicol}
+\usepackage{siunitx}
+\usepackage{hyperref}
+\usepackage{booktabs}
+
+% Color institucional (definido en preámbulo para que persista en todo el doc)
+\definecolor{Micolor1}{RGB}{0,120,190}
+
+% Estilo bibliografía
+\bibliographystyle{abbrvnat}
+
+% Configuración de hoja
+\setmarginsrb{4 cm}{2.5 cm}{2 cm}{2.5 cm}{1 cm}{1.5 cm}{1 cm}{0.5 cm}
+
+% Configuración de sangría
+\setlength{\parindent}{4mm}
+\setlength{\parskip}{1mm}
+
+%---------------------------------------------------------------------------
+%	DATOS DEL TRABAJO
+%---------------------------------------------------------------------------
+
+\title{Framework Open-Source Distribuido para Monitoreo Predictivo Industrial de Motores de Inducción mediante Edge AI y Arquitecturas de Atención Temporal}
+\author{Juan Pedro de León Sum}
+\date{\today}
+
+\makeatletter
+\let\thetitle\@title
+\let\theauthor\@author
+\let\thedate\@date
+\makeatother
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\theauthor}
+\lhead{Framework Open-Source PdM — Motores de Inducción}
+\cfoot{\thepage}
+
+\pgfplotsset{compat=1.16}
+
+\begin{document}
+
+% =====================================================
+% CARÁTULA
+% =====================================================
+\begin{titlepage}
+\vspace*{-2 cm}
+
+\begin{center}
+% NOTA: reemplazar por \includegraphics del logo UTEC cuando esté disponible en figuras/
+{\Large \bfseries UNIVERSIDAD TECNOLÓGICA (UTEC)}\\[0.3cm]
+{\large Maestría en Robótica e Inteligencia Artificial (PRIA)}
+\end{center}
+
+\vspace{2.5 cm}
+
+\begin{center}
+\noindent\rule{12cm}{0.4mm}\\[0.3cm]
+{\Huge \bfseries \textcolor{Micolor1}{\thetitle}}\\[0.5cm]
+\noindent\rule{12cm}{0.4mm}
+\end{center}
+
+\vspace{2 cm}
+
+\begin{center}
+\textbf{\large \textcolor{Micolor1}{Autor:}} \large \theauthor\\[0.4cm]
+\textbf{\large \textcolor{Micolor1}{Tutor/a:}} \large A Confirmar\\[0.4cm]
+\textbf{\large \textcolor{Micolor1}{Línea de investigación:}} \large Inteligencia Artificial Aplicada
+\end{center}
+
+\vfill
+
+\begin{center}
+\textbf{\small \textcolor{Micolor1}{Fecha:}} \small \thedate
+\end{center}
+
+\end{titlepage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	INICIO DEL DOCUMENTO
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\renewcommand{\thepage}{\roman{page}}
+
+\begin{center}
+\normalsize \textbf{Resumen}
+\end{center}
+
+\noindent Esta investigación propone el desarrollo y validación operacional de un sistema distribuido de monitoreo de condición (CBM) de código abierto para motores de inducción trifásicos en una planta agroindustrial uruguaya con más de 100 motores en operación continua. El sistema integra una jerarquía de tres niveles de inteligencia artificial: Temporal Convolutional Networks (TCN) cuantizadas en nodos embebidos ESP32-S3 para detección de anomalías en tiempo real a partir de datos multimodales de vibración (ADXL355) y temperatura (DS18B20); Temporal Fusion Transformers (TFT) en servidor centralizado para el pronóstico multivariable de Vida Útil Remanente (RUL) con horizonte de 24 horas; y Graph Neural Networks (GNN) para modelar la propagación de vibraciones entre activos adyacentes y reducir falsos positivos. El trabajo constituye una continuación directa del Trabajo Final de Especialización del autor (De~León~Sum, 2021), elevando el nivel de madurez tecnológica de TRL 4 a TRL 7 mediante el despliegue de 10 nodos en entorno operativo real, bajo la normativa ISO 20816-1:2016.
+
+\vspace{0.3cm}
+\noindent \underline{Palabras clave:} mantenimiento predictivo, Edge AI, TCN, TFT, GNN, motores de inducción.
+
+\newpage
+
+\listoffigures
+\addcontentsline{toc}{section}{Índice de figuras}
+\newpage
+\thispagestyle{empty}
+
+\tableofcontents
+\newpage
+\pagenumbering{arabic}
+
+%%%%%%%%%%%%%%
+% SECCIÓN 1 — INTRODUCCIÓN
+%%%%%%%%%%%%%%
+\section{Introducción}
+\label{sec:introduccion}
+
+% Redactar aquí el planteamiento del problema (embudo macro→meso→micro)
+% ya trabajado en la propuesta: contexto global de motores de inducción,
+% brecha en la agroindustria uruguaya, limitaciones técnicas específicas
+% del TFE 2021 (LSTM: degradación de gradiente + ruido EMI del MPU-6050).
+
+\subsection{Contexto y relevancia}
+% Nivel macro: motores de inducción como activo crítico industrial global.
+
+Los motores de inducción trifásicos constituyen la carga electromecánica dominante en la industria de proceso: los sistemas motrices eléctricos representan más del 40\% del consumo eléctrico industrial global \citep{waide2011}, y las fallas de origen mecánico --- principalmente rodamientos y rotor --- superan el 50\% del total de fallas registradas en motores de inducción, según la encuesta de fiabilidad de motores del IEEE \citep{ieee1985motorreliability}, cifra consistente con estudios posteriores del EPRI y de otros organismos del sector. Esta concentración de fallas en un tipo específico de activo no es casual: los motores de inducción operan de forma continua, bajo cargas variables y en condiciones ambientales frecuentemente adversas (temperatura, humedad, contaminación por partículas), lo que los convierte en el eslabón mecánico con mayor exposición a degradación progresiva dentro de una planta industrial.
+
+La vibración mecánica es, dentro de este contexto, la señal más temprana y medible de esa degradación: defectos incipientes en rodamientos, desalineación de eje o desbalanceo de masa rotativa se manifiestan como componentes espectrales característicos en la señal vibracional antes de que el motor exhiba síntomas audibles o térmicos evidentes \citep{tiboni2022}. Este principio es la base técnica sobre la cual se ha desarrollado, durante las últimas dos décadas, un cuerpo de conocimiento que documenta la transición desde el mantenimiento correctivo (intervenir tras la falla) y el preventivo (intervenir por calendario, independientemente del estado real del activo) hacia el mantenimiento predictivo basado en condición (\textit{Condition-Based Maintenance}, CBM) \citep{achouch2022}.
+
+Esta transición ha sido impulsada por la convergencia de tres desarrollos tecnológicos concurrentes: (i) la miniaturización y abaratamiento de sensores MEMS (\textit{Micro-Electro-Mechanical Systems}), que permiten instrumentar activos individuales a un costo antes prohibitivo; (ii) la proliferación de conectividad de bajo costo para telemetría industrial (IoT industrial); y (iii) la madurez de arquitecturas de aprendizaje profundo capaces de extraer patrones de degradación directamente de series temporales crudas, sin requerir la ingeniería manual de características que dominaba los enfoques clásicos de procesamiento de señal \citep{achouch2022}. El resultado es una reducción documentada, en implementaciones exitosas, tanto del costo de mantenimiento no planificado como de la sobre-intervención asociada al mantenimiento preventivo estrictamente calendarizado.
+
+Sin embargo, esta convergencia tecnológica no garantiza por sí sola una adopción uniforme. La disponibilidad de sensores baratos y modelos de aprendizaje profundo eficientes es una condición necesaria pero no suficiente: la adopción efectiva de CBM depende también de la disponibilidad de personal técnico especializado, de presupuesto de capital para instrumentación a escala de planta, y --- de forma menos discutida en la literatura técnica pero central para esta investigación --- de la validación de estos sistemas en las condiciones operativas reales, y no solo de laboratorio, del entorno donde se van a desplegar. Esta distinción entre validación de laboratorio y validación operacional es el punto de partida para situar el problema en su contexto regional específico.
+
+\subsection{Brecha en la agroindustria uruguaya}
+% Nivel meso: adopción desigual de PdM, caso de la planta agroindustrial.
+
+La adopción de mantenimiento predictivo documentada en la literatura internacional está mayoritariamente concentrada en sectores manufactureros de gran escala, en economías con acceso consolidado a integradores tecnológicos especializados y a presupuestos de capital acordes --- un sesgo cuantificado, por ejemplo, en una revisión sistemática reciente sobre adopción de PdM 4.0 que encontró que apenas el 2\% de las publicaciones revisadas provenían de países en desarrollo y solo el 7\% de África \citep{peter2023}. Esta concentración deja relativamente subrepresentados a sectores intensivos en activos rotativos pero periféricos respecto a los polos de innovación tecnológica --- entre ellos, la agroindustria de países en desarrollo ---, donde el mantenimiento correctivo permanece como práctica dominante pese a la criticidad operativa de los equipos involucrados.
+
+Uruguay presenta un caso relevante de esta asimetría. El sector agropecuario representa entre el 6\% y el 7\% del PIB uruguayo, y al incluir subsectores e industrias asociadas --- lo que se denomina sector agroindustrial ---, su contribución asciende a entre el 14\% y el 16\% del PIB, además de concentrar cerca del 80\% de las exportaciones totales de bienes del país \citep{uruguayxxi2024}, y su operación depende de forma crítica de motores de inducción trifásicos en procesos continuos --- molienda, bombeo, ventilación, refrigeración --- donde una falla imprevista durante temporada de procesamiento no solo detiene producción, sino que puede comprometer lotes completos y afectar cadenas de frío de productos perecederos, propagando la pérdida económica más allá del costo de reparación del motor mismo.
+
+La planta agroindustrial que sirve de entorno de validación para este trabajo --- con más de 100 motores trifásicos en operación continua --- opera actualmente bajo un esquema predominantemente correctivo. Se trata de una observación empírica de este caso específico, y su relevancia como caso de estudio no depende de su representatividad estadística sino de su acceso operativo real --- un acuerdo institucional formalizado que permite instrumentación y recolección de datos en condiciones industriales genuinas, una oportunidad de validación TRL 7 infrecuente en la literatura revisada.
+
+Sobre la viabilidad económica del cambio de paradigma en este caso: asumiendo un costo conservador de parada no planificada de USD 2.000/hora y una reducción del 30\% en eventos de falla --- cifra reportada en \citet{abdulkareem2025} ---, el retorno sobre la inversión del sistema propuesto se estimaría en menos de seis meses. Esta proyección merece una advertencia metodológica: la cifra de reducción de 30\% proviene de un estudio con condiciones de motor, carga y régimen de fallas que no necesariamente coinciden con los de la planta objeto de este trabajo; su uso aquí es ilustrativo de viabilidad económica potencial, no una proyección validada para este caso particular.
+
+Esta brecha, entonces, no es solamente de adopción tecnológica tardía, sino de \textbf{adecuación tecnológica}: la mayoría de las arquitecturas de PdM reportadas en la literatura reciente han sido diseñadas y validadas en condiciones de laboratorio controlado --- con presupuestos de cómputo, ancho de banda y curación de datos que no reflejan la realidad operativa de una planta mediana en un país en desarrollo. Determinar si esa brecha de adecuación es superable, y con qué arquitectura específica, requiere primero establecer con precisión cuáles son las limitaciones técnicas concretas que un sistema de este tipo debe resolver, lo cual es objeto de la sección siguiente.
+
+\subsection{Limitaciones técnicas específicas}
+% Nivel micro: limitaciones del TFE 2021 y brechas del estado del arte
+% que motivan esta propuesta.
+
+El Trabajo Final de Especialización previo del autor \citep{deleonsum2021} constituye el punto de partida empírico directo de esta investigación. Aquel trabajo validó una arquitectura basada en redes LSTM (\textit{Long Short-Term Memory}) para detección de fallas por vibración, alcanzando una precisión superior al 90\% (95,30\% según lo documentado en el artículo derivado, IEEE URUCON 2026, paper ID 1571307323) en entorno controlado de laboratorio, correspondiente a un nivel de madurez tecnológica TRL 4. Este resultado confirma la viabilidad conceptual del enfoque general --- detección de fallas por vibración mediante aprendizaje profundo ---, pero, precisamente por su naturaleza de validación en laboratorio, no resuelve la pregunta de si el sistema es operacionalmente confiable fuera de esas condiciones controladas.
+
+El propio trabajo de 2021 identificó dos limitaciones estructurales, de naturaleza distinta entre sí, que permanecen sin resolver:
+
+\textbf{Una limitación algorítmica.} Las redes LSTM, pese al desempeño reportado, están sujetas a degradación del gradiente en secuencias temporales largas --- una limitación arquitectónica de las redes recurrentes frente a dependencias de largo alcance, ampliamente documentada en la literatura de aprendizaje profundo para series temporales desde el trabajo fundacional de \citet{bengio1994}. En el dominio de diagnóstico de vibración, esto se traduce en una capacidad limitada para capturar patrones de degradación que se desarrollan a lo largo de ventanas temporales extensas, además de ofrecer escasa interpretabilidad sobre qué componentes de la señal motivan una predicción de falla determinada. Esta última carencia no es menor: en un contexto de mantenimiento industrial, una alarma debe ser accionable por personal técnico --- debe indicar, al menos aproximadamente, \textit{qué} está fallando ---, no solo señalar estadísticamente que algo se desvía de lo normal.
+
+\textbf{Una limitación de instrumentación.} El sensor utilizado en el trabajo de 2021 (MPU-6050, bus I\textsuperscript{2}C) demostró sensibilidad al ruido de interferencia electromagnética (EMI) en entornos industriales reales. Esta es una limitación que, de forma reveladora, no se manifestó durante el desarrollo del trabajo original porque este se realizó en banco de pruebas de laboratorio, donde el entorno eléctrico está controlado; se hizo evidente únicamente al considerar el despliegue en una planta con motores de gran potencia, variadores de frecuencia y cableado compartido --- es decir, es precisamente el tipo de limitación que solo se revela al intentar cruzar el umbral de TRL 4 a TRL 5 o superior. Este hallazgo es metodológicamente relevante para la presente propuesta: sugiere que la validación en laboratorio, aunque necesaria, es insuficiente como criterio único de madurez tecnológica en este dominio.
+
+Ambas limitaciones --- algorítmica y de instrumentación --- definen requisitos técnicos concretos que cualquier arquitectura sucesora debe satisfacer: capacidad de modelar dependencias temporales largas con mayor interpretabilidad que una LSTM, y un canal de adquisición de señal robusto a interferencia electromagnética en condiciones de planta real. La revisión sistemática de literatura desarrollada en la Sección~\ref{sec:estado-del-arte} examina en qué medida las arquitecturas de atención temporal (TCN, TFT) y los enfoques basados en grafos (GNN) abordan estos requisitos --- individualmente, en trabajos existentes --- y en qué medida ninguno de ellos ha sido validado de forma integrada en condiciones de TRL 7. Esta constatación --- que el problema no es la inexistencia de soluciones parciales, sino la ausencia de su integración y validación conjunta en planta real --- es la que motiva directamente las dos preguntas de investigación que estructuran esta propuesta.
+
+\subsection{Preguntas de investigación}
+\begin{itemize}
+    \item[] \textbf{PI-1:} ¿En qué medida una arquitectura jerárquica TCN+TFT supera las limitaciones de degradación del gradiente e interpretabilidad de las LSTM en series temporales de vibración industrial con alta interferencia electromagnética?
+    \item[] \textbf{PI-2:} ¿Es posible reducir significativamente la tasa de falsos positivos generada por contaminación cruzada de vibraciones entre activos adyacentes mediante una GNN que modele la topología de propagación en la planta?
+\end{itemize}
+
+%%%%%%%%%%%%%%
+% SECCIÓN 2 — OBJETIVOS
+%%%%%%%%%%%%%%
+\section{Objetivos}
+\label{sec:objetivos}
+
+\subsection{Objetivo general}
+Desarrollar, implementar y validar operacionalmente, en una planta agroindustrial uruguaya con más de 100 motores en operación continua, un framework distribuido de código abierto para el monitoreo predictivo de motores de inducción trifásicos, mediante una arquitectura jerárquica de inteligencia artificial que integre detección de anomalías en el borde a partir de datos multimodales de vibración y temperatura, pronóstico de vida útil remanente y modelado de propagación de fallas entre activos adyacentes, elevando el nivel de madurez tecnológica del sistema de TRL 4 a TRL 7 bajo la normativa ISO 20816-1:2016.
+
+\subsection{Objetivos específicos}
+\begin{description}
+    \item[OE1.] Diseñar, implementar y validar un nodo sensor embebido multimodal de bajo costo (ESP32-S3 + ADXL355 + DS18B20) con capacidad de detección de anomalías en tiempo real mediante una red TCN cuantizada, demostrando una mejora cuantificable en calidad de señal vibracional (SNR) y desempeño de clasificación (F1-score, latencia) respecto a la línea de base del trabajo de Especialización (MPU-6050 + LSTM), e incorporando temperatura de carcasa como variable complementaria de monitoreo continuo.
+
+    \item[OE2.] Desarrollar y validar una arquitectura TFT para el pronóstico multivariable de vida útil remanente (RUL) con horizonte de 24 horas, entrenada con datos reales de vibración y temperatura recolectados en planta, evaluando si la fusión de ambas variables mejora el RMSE y los intervalos de incertidumbre respecto a un modelo entrenado exclusivamente con vibración y a la línea de base LSTM.
+
+    \item[OE3.] Desplegar una red de nodos sensores en la planta agroindustrial y validar operacionalmente una arquitectura GNN capaz de modelar la topología de propagación de vibraciones entre motores adyacentes, midiendo la reducción efectiva de falsos positivos respecto a un sistema sin modelado de grafos, y consolidando la validación del sistema completo en TRL 7 bajo ISO 20816-1:2016.
+\end{description}
+
+%%%%%%%%%%%%%%
+% SECCIÓN 3 — ESTADO DEL ARTE / MARCO TEÓRICO
+%%%%%%%%%%%%%%
+\section{Estado del arte}
+\label{sec:estado-del-arte}
+
+\textbf{Alcance y protocolo de la revisión.} La revisión de literatura que sustenta este capítulo se realizó sobre la base de datos Scopus, con un horizonte temporal restringido a publicaciones posteriores a 2020 --- salvo en el caso de referencias fundacionales de arquitectura (p. ej., el trabajo seminal sobre degradación del gradiente en redes recurrentes, anterior a ese corte pero insustituible como base conceptual). Las búsquedas se organizaron en torno a tres clústeres temáticos no excluyentes: (i) arquitecturas núcleo de aprendizaje profundo para series temporales (LSTM, TCN, TFT); (ii) implementación embebida y Edge AI para diagnóstico industrial; y (iii) modelado basado en grafos para diagnóstico multi-sensor. Esta segmentación responde a una razón estructural: la literatura de PdM rara vez trata estos tres ejes de forma integrada, y por lo tanto tampoco puede revisarse de forma integrada sin perder precisión. Esa misma fragmentación de la literatura es, como se argumenta en la Sección~\ref{sec:brecha}, parte de la evidencia de la brecha.
+
+\subsection{Limitaciones de arquitecturas recurrentes}
+\label{sec:limitaciones-recurrentes}
+
+Las redes LSTM se consolidaron durante la última década como la arquitectura por defecto para el diagnóstico de fallas basado en series temporales de vibración, y con razón: su capacidad de retener información a través de puertas de memoria explícitas --- a diferencia de las RNN simples --- las hace considerablemente más robustas frente a dependencias de mediano plazo. Esta consolidación se refleja en la literatura reciente de mantenimiento predictivo en motores de inducción: modelos híbridos que combinan capas convolucionales con unidades recurrentes (CNN-GRU, CNN-LSTM) han reportado precisiones cercanas al 92\% en la clasificación de fallas en motores de jaula de ardilla \citep{plosone2025}, y enfoques más clásicos basados en k-NN y ANN han alcanzado cifras del orden del 89--91\% \citep{abdulkareem2025}. Estas cifras, leídas en conjunto, sugieren una meseta de desempeño: arquitecturas de naturaleza muy distinta convergen hacia un rango de precisión similar, lo cual es indicio --- no prueba concluyente --- de que el techo actual no está determinado tanto por la arquitectura de clasificación en sí como por limitaciones compartidas aguas arriba: calidad de la señal, representatividad del conjunto de entrenamiento, y la propia naturaleza de la tarea.
+
+Sin embargo, dos limitaciones estructurales de las arquitecturas recurrentes persisten independientemente de estas variantes híbridas, y ninguna de las dos es resoluble simplemente agregando capas o ajustando hiperparámetros.
+
+La primera es algorítmica y tiene una explicación matemática precisa, no meramente empírica: el fenómeno de degradación (o desvanecimiento) del gradiente en el entrenamiento por retropropagación a través del tiempo, formalizado por \citet{bengio1994} más de una década antes de la popularización de las LSTM. Este resultado establece que, a medida que aumenta la longitud de la dependencia temporal que la red debe aprender, el gradiente que atraviesa las conexiones recurrentes tiende a desvanecerse (o, en su forma dual, a explotar), lo cual impone un compromiso estructural entre la capacidad de aprender por descenso de gradiente y la capacidad de retener información a largo plazo. Las puertas de memoria de la LSTM mitigan --- no eliminan --- este problema. En el dominio específico de diagnóstico vibracional, esto se traduce en una limitación práctica: los patrones de degradación mecánica progresiva (por ejemplo, el desarrollo gradual de un defecto de rodamiento a lo largo de semanas de operación) exigen exactamente el tipo de dependencia de largo alcance que estas arquitecturas manejan de forma subóptima.
+
+La segunda limitación es de naturaleza distinta y, en cierto sentido, más relevante para la aplicabilidad industrial que para la investigación puramente algorítmica: la escasa interpretabilidad de las redes recurrentes profundas. Ninguno de los trabajos revisados en el clúster de arquitecturas núcleo reporta mecanismos que permitan identificar qué componentes de la señal de entrada motivaron una predicción de falla específica. Esto no es un defecto menor subsanable en trabajo futuro: es una limitación arquitectónica --- las LSTM no fueron diseñadas con mecanismos de atención o pesos interpretables sobre la entrada --- que se vuelve crítica en el momento en que estos sistemas dejan el laboratorio y deben sostener decisiones de mantenimiento accionables por personal técnico. \citet{pham2020} documentan además una restricción complementaria y frecuentemente subestimada: incluso cuando el desempeño de clasificación es adecuado, las arquitecturas convolucionales y recurrentes convencionales exceden con facilidad las restricciones de memoria de microcontroladores de bajo costo, lo cual convierte la pregunta de ``¿el modelo funciona?'' en una pregunta distinta y más exigente: ``¿el modelo funciona \textit{dentro del presupuesto computacional del hardware que la industria puede pagar}?''
+
+Esta doble limitación --- dependencias de largo alcance mal resueltas e interpretabilidad nula --- no es un problema exclusivamente académico: en un contexto de mantenimiento industrial, y en particular en una planta agroindustrial con recursos técnicos limitados, un sistema que señala ``hay una anomalía'' sin indicar su naturaleza probable genera desconfianza operativa y, en la práctica, tiende a ser ignorado o desactivado por el personal de planta --- un riesgo de adopción documentado de forma más amplia en la literatura de transición hacia mantenimiento 4.0 \citep{achouch2022}, aunque no específicamente para el caso agroindustrial, lo cual señalo como vacío en la literatura revisada. Es precisamente la búsqueda de arquitecturas que resuelvan estas dos limitaciones --- dependencia de largo alcance e interpretabilidad --- sin sacrificar la eficiencia computacional necesaria para el despliegue embebido, la que ha impulsado la adopción de arquitecturas de atención temporal en el dominio del diagnóstico industrial, cuyo desarrollo y limitaciones se examinan a continuación.
+
+\subsection{Soluciones emergentes y brechas}
+\label{sec:soluciones-emergentes}
+
+El problema, formulado con precisión, es el siguiente: ¿qué arquitectura puede modelar dependencias temporales largas de forma más eficiente que una LSTM, ofrecer algún grado de interpretabilidad sobre la contribución de cada instante temporal, y --- simultáneamente --- ser desplegable bajo restricciones de memoria de un microcontrolador de bajo costo? Ninguna arquitectura aislada resuelve completamente estas tres exigencias; la literatura reciente puede entenderse como una secuencia de respuestas parciales, cada una desplazando el problema en una dirección distinta.
+
+Las \textbf{Redes Convolucionales Temporales (TCN)} responden directamente a la limitación algorítmica de las recurrentes: al reemplazar la recurrencia por convoluciones causales dilatadas, evitan por diseño el mecanismo de retropropagación a través del tiempo que origina la degradación del gradiente, y permiten además paralelización durante el entrenamiento. \citet{fu2024} proponen MCA-DTCN, una arquitectura TCN de doble tarea con atención multi-canal orientada específicamente a la detección temprana de degradación y al pronóstico de vida útil remanente, reportando una reducción del RMSE de hasta 5,5\% respecto a una línea de base LSTM. Esta cifra proviene directamente del trabajo citado y debe leerse con la cautela habitual de cualquier resultado de un único estudio con un dataset específico. Ese resultado puntual encuentra, sin embargo, respaldo en evidencia más general y metodológicamente más rigurosa: la evaluación empírica sistemática de \citet{bai2018tcn} --- el trabajo que originalmente formalizó y popularizó la arquitectura TCN --- demuestra, mediante una tarea sintética de memoria de copia diseñada específicamente para aislar la capacidad de retención de largo alcance, que las TCN mantienen precisión perfecta para secuencias de longitud creciente mientras que LSTM y GRU se degradan progresivamente hacia una respuesta aleatoria. Esto no reemplaza la necesidad de una comparación específica sobre CWRU/MAFAULDA para el dominio de vibración industrial --- que sigue sin estar disponible en el corpus revisado ---, pero sí confirma que la ventaja estructural de la TCN frente a la degradación de gradiente no es un artefacto del estudio de Fu et al., sino una propiedad arquitectónica demostrada de forma independiente. Lo que la TCN no resuelve es la interpretabilidad: sigue siendo, en esencia, una caja negra convolucional, y tampoco resuelve el pronóstico probabilístico multi-horizonte que exige la estimación de vida útil remanente con intervalos de incertidumbre --- una TCN produce una predicción puntual, no una distribución.
+
+Esta doble carencia --- incertidumbre no cuantificada y horizonte de pronóstico fijo --- es la que motiva la adopción de los \textbf{Temporal Fusion Transformers (TFT)}, arquitecturas que incorporan el mecanismo de atención introducido por \citet{vaswani2017} para el procesamiento de secuencias, adaptado al pronóstico multivariable con múltiples horizontes e incertidumbre cuantificada mediante regresión por cuantiles. La adopción de mecanismos de atención resuelve, al menos parcialmente, el déficit de interpretabilidad heredado de las arquitecturas anteriores: los pesos de atención pueden inspeccionarse para identificar qué instantes temporales y qué variables de entrada contribuyeron más a una predicción dada. \citet{meng2024} aplican TFT al pronóstico de degradación en turbinas de gas industriales, superando a arquitecturas recurrentes en horizontes de pronóstico superiores a 12 horas. Es necesario señalar, sin embargo, una limitación que atraviesa gran parte de esta línea de literatura y que no debe minimizarse: la validación de Meng et al. se realiza sobre datos de simulación, no sobre datos operativos reales de planta --- una distinción que, dado el argumento central de esta tesis, no es un detalle menor sino precisamente el tipo de brecha que este trabajo busca cerrar.
+
+Con TCN resolviendo la limitación algorítmica y TFT aportando pronóstico probabilístico con interpretabilidad parcial, queda un tercer problema sin resolver, que ninguna de las dos arquitecturas anteriores aborda porque ninguna de las dos fue diseñada para hacerlo: \textbf{ambas modelan cada activo de forma aislada}. Ni TCN ni TFT tienen, por construcción, ningún mecanismo para representar que la vibración de un motor puede estar correlacionada --- mecánicamente, no solo estadísticamente --- con la vibración de un motor físicamente adyacente en la misma línea de producción. En una planta con más de 100 motores, esta omisión no es cosmética: es la causa directa de falsos positivos por contaminación cruzada de vibraciones entre activos próximos, un problema que ningún modelo univariado por activo puede, en principio, distinguir de una falla real.
+
+Este es el problema que las \textbf{Graph Neural Networks (GNN)} están diseñadas para resolver, al representar activos --- o, más precisamente, como se detalla más abajo, \textit{señales} --- como nodos de un grafo cuyas aristas codifican relaciones de proximidad, similitud o interacción física. \citet{chen2023} proponen redes de atención sobre grafos conscientes de la interacción entre componentes para el diagnóstico de fallas en procesos industriales complejos; \citet{he2026} y \citet{duan2025} presentan enfoques de diagnóstico multi-sensor basados en expansión de series y fusión dinámica de datos temporales-frecuenciales mediante atención sobre grafos, demostrando la viabilidad conceptual de modelar interacciones entre nodos sin topología predefinida.
+
+Un examen del modo en que estos trabajos --- y otros disponibles en el corpus revisado --- construyen efectivamente sus grafos muestra un patrón consistente: \citet{zhang2026gcn} construyen un grafo cuyos nodos son \textit{representaciones de la señal de un único motor} obtenidas mediante minería de asociación de señal, no motores distintos de una planta; \citet{xiao2026cdgcn} identifican explícitamente, como limitación no resuelta del estado del arte en GNN para diagnóstico de fallas, que la mayoría de los enfoques existentes construyen la topología del grafo a partir de conocimiento previo --- típicamente la disposición física de los \textit{sensores} --- o de métricas de similitud fijas entre \textit{segmentos de señal}, y proponen en cambio una construcción dinámica y diferenciable del grafo; y en un dominio distinto pero estructuralmente análogo, \citet{periasamy2026} modelan la propagación de fallas mediante GNN sobre un grafo cinemático cuyos nodos son las \textit{articulaciones de un único brazo robótico}, no máquinas distintas de una planta.
+
+Esta observación encuentra, además, un anclaje adicional en la literatura de benchmarking del propio campo: \citet{li2022gnnbenchmark}, en la guía y estudio comparativo de referencia sobre GNN para diagnóstico y pronóstico de fallas, evalúan siete arquitecturas de convolución sobre grafos y tres métodos de construcción de grafo a través de ocho conjuntos de datos --- y en ningún caso el nodo del grafo representa un activo físicamente distinto dentro de una planta; la unidad de análisis en las tres estrategias de construcción que catalogan permanece siempre por debajo del nivel de activo completo.
+
+El patrón que emerge de estos ejemplos --- y que la literatura revisada no contradice en ningún caso identificado --- es que las arquitecturas GNN aplicadas a diagnóstico de fallas, incluso en sus variantes más recientes y metodológicamente más sofisticadas (grafo dinámico, atención, aprendizaje de extremo a extremo), operan sistemáticamente a una \textbf{granularidad intra-activo}: los nodos del grafo representan sensores, canales de señal, segmentos temporales o articulaciones dentro de una misma máquina. Ninguno de los trabajos identificados en esta revisión construye un grafo cuyos nodos sean \textbf{activos físicamente distintos} --- motores separados, en ubicaciones distintas de una planta --- con el objetivo específico de modelar y filtrar la contaminación cruzada de vibraciones entre ellos. Esta es una distinción de escala, no de técnica: la maquinaria conceptual (convolución sobre grafos, atención, construcción dinámica de topología) es directamente trasladable de un nivel al otro, pero el traslado en sí no aparece realizado ni validado en la literatura revisada para el caso de una red de motores de inducción distribuidos en una planta industrial.
+
+Cabe señalar, para cerrar este apartado con la debida cautela científica, que esta observación se basa en el conjunto de trabajos efectivamente revisados y no constituye una afirmación de exhaustividad: \textbf{[Referencia requerida] una búsqueda sistemática adicional, con criterios de inclusión/exclusión explícitos y protocolo tipo PRISMA, sería necesaria antes de sostener esta observación como un hallazgo de revisión sistemática formal y no como un patrón observado en una muestra de literatura} --- \citet{li2022gnnbenchmark} aporta un anclaje parcial a esta observación, pero fue identificado mediante búsqueda temática, no mediante un protocolo sistemático diseñado específicamente para esta pregunta. Del mismo modo, conviene mencionar que existen intentos de despliegue de bajo costo en el borde --- \citet{sciencedirect2026} con sensores IEPE, y \citet{researchgate2025} con un nodo ESP32 y acelerómetro ADXL345 mediante TinyML, alcanzando más de 92\% de precisión --- pero ninguno de ellos incorpora modelado de grafo alguno: se limitan a inferencia univariada por nodo, sin ningún mecanismo de razonamiento sobre topología de planta.
+
+\subsection{Brecha que justifica esta propuesta}
+\label{sec:brecha}
+
+La secuencia argumental desarrollada en las secciones anteriores puede sintetizarse en una sola proposición, que es la que da forma a la metodología de este trabajo: la literatura reciente ha producido soluciones técnicamente maduras para cada limitación individual de las arquitecturas recurrentes clásicas --- TCN para la degradación del gradiente y la eficiencia computacional, TFT para el pronóstico probabilístico multi-horizonte con interpretabilidad parcial, GNN para el modelado de interacciones relacionales --- pero ninguna de estas soluciones ha sido validada, en el corpus de literatura revisado, de forma (a) \textbf{integrada}, combinando las tres capacidades en una arquitectura jerárquica única; (b) a la \textbf{escala correcta} para el problema de contaminación cruzada de vibraciones entre activos físicamente distintos, en lugar de la escala intra-activo en la que opera la literatura actual de GNN para diagnóstico; y (c) bajo \textbf{condiciones de validación operacional} en planta industrial real --- TRL 7 ---, en lugar de bajo condiciones de laboratorio o simulación.
+
+Sobre este último punto --- la validación TRL 6--7 de arquitecturas de aprendizaje profundo en mantenimiento predictivo industrial --- la revisión sistemática PRISMA 2020 de \citet{henaovilla2026}, que examina 89 estudios sobre inteligencia artificial para mantenimiento predictivo en sistemas de manufactura complejos, aporta la confirmación cuantitativa más sólida disponible para el argumento central de este capítulo: el 65,6\% de los estudios analizados emplea protocolos de validación débiles o no especificados, y \textbf{ningún estudio del corpus alcanzó validación operacional en campo más allá de una partición temporal o cruzada entre dominios} --- es decir, ninguno fue validado en las condiciones TRL 7 que esta tesis se propone alcanzar. Esta cifra reemplaza la afirmación genérica de ``validación exclusivamente en laboratorio'' por una constatación sistemática y cuantificada, ajena a la revisión temática realizada para este capítulo, y constituye la evidencia más sólida de todo el capítulo para sostener la brecha reclamada en esta propuesta.
+
+Esta triple ausencia no es casual ni atribuible a una limitación de las arquitecturas en sí, sino que responde, al menos parcialmente, a un problema de acceso: la validación TRL 7 de un sistema de monitoreo distribuido exige exactamente lo que documenta el Capítulo~\ref{sec:introduccion} como el activo diferencial de esta propuesta --- un acuerdo institucional formalizado de acceso instrumentado a una planta real con más de 100 motores en operación continua ---, una condición de acceso que está desigualmente distribuida en la literatura internacional de mantenimiento predictivo \citep{peter2023}. Es decir: la brecha técnica identificada en este capítulo y la brecha de adopción geográfica identificada en el Capítulo~\ref{sec:introduccion} no son dos problemas independientes que esta tesis intenta resolver en paralelo, sino que están causalmente conectadas --- la escasez de validaciones GNN a escala de planta es, al menos en parte, consecuencia de la escasez de oportunidades de acceso instrumentado a plantas reales fuera de los polos de innovación tecnológica ya consolidados.
+
+Esta conexión permite formular con precisión las dos preguntas de investigación que estructuran los objetivos específicos de este trabajo: si una arquitectura jerárquica TCN+TFT, entrenada y validada en datos reales de planta, efectivamente supera las limitaciones de degradación de gradiente e interpretabilidad documentadas en la Sección~\ref{sec:limitaciones-recurrentes} (PI-1); y si una GNN cuyos nodos representan motores físicamente distintos --- desplazando deliberadamente la granularidad identificada como ausente en la Sección~\ref{sec:soluciones-emergentes}, de intra-activo a inter-activo --- logra reducir la tasa de falsos positivos por contaminación cruzada de vibraciones en una red de activos reales (PI-2). Ninguna de las dos preguntas es trivialmente respondible a partir de la literatura revisada, precisamente porque ninguno de los trabajos examinados formula el problema en estos términos.
+
+Es necesario, antes de cerrar este capítulo, ser explícito sobre el tipo de evidencia bibliográfica adicional que sería necesaria para blindar completamente el argumento de brecha aquí construido, y no solo declarar la brecha como si estuviera ya demostrada de forma incontrovertible:
+
+\begin{enumerate}
+\item \textbf{[Referencia requerida]} una búsqueda sistemática con protocolo explícito (cadena de búsqueda reproducible, criterios de inclusión/exclusión, diagrama de flujo tipo PRISMA) sobre Scopus y Web of Science, específicamente orientada a verificar la ausencia de arquitecturas GNN inter-activo en el dominio de mantenimiento predictivo de motores de inducción --- la observación actual se apoya en un conjunto de trabajos revisados con criterio temático más el anclaje parcial de \citet{li2022gnnbenchmark}, no en una revisión sistemática formal diseñada para esta pregunta específica. Esta es la limitación más importante de todo el capítulo y debería resolverse antes de la defensa.
+\item Evidencia comparativa adicional sobre el desempeño de MCA-DTCN u otras arquitecturas TCN frente a LSTM en datasets estándar del dominio (CWRU, MAFAULDA) --- parcialmente resuelto mediante \citet{bai2018tcn} a nivel de benchmark general de arquitectura, aunque la comparación específica en datasets de vibración industrial sigue pendiente.
+\item Validación TRL 6--7 de estas arquitecturas en mantenimiento predictivo industrial --- resuelto mediante la revisión sistemática de \citet{henaovilla2026}.
+\end{enumerate}
+
+Con esta brecha establecida --- arquitectónica, de escala, y de condiciones de validación ---, el Capítulo de Metodología puede presentarse no como una elección de diseño entre alternativas equivalentes, sino como la respuesta directa y necesaria a un vacío específico y delimitado de la literatura revisada.
+
+%%%%%%%%%%%%%%
+% SECCIÓN 4 — METODOLOGÍA
+%%%%%%%%%%%%%%
+\section{Metodología}
+\label{sec:metodologia}
+
+\subsection{Fase 1 --- Hardware y fundamentos (TRL 5--6)}
+% Diseño de PCB en KiCad (filtrado EMI, bus SPI, DS18B20 1-Wire),
+% fabricación y caracterización de SNR vs. MPU-6050,
+% configuración de servidor (Proxmox, InfluxDB, Grafana).
+
+\subsection{Fase 2 --- Edge AI (TRL 6)}
+% Firmware ESP-IDF + FreeRTOS, entrenamiento TCN (CWRU, MAFAULDA),
+% cuantización INT8, evaluación comparativa contra LSTM.
+
+\subsection{Fase 3 --- Modelos de servidor y datos reales (TRL 6--7)}
+% Instalación de 10 nodos en planta, recolección de datos reales,
+% entrenamiento/ajuste fino del TFT, construcción del grafo y
+% entrenamiento de la GNN.
+
+\subsection{Fase 4 --- Validación y diseminación (TRL 7)}
+% Validación de métricas ISO 20816-1:2016, medición de reducción
+% de falsos positivos con GNN, redacción de artículo y defensa.
+
+\subsection{Criterios de evaluación}
+Los criterios de evaluación incluyen: SNR del nodo multimodal, F1-score y latencia de inferencia del TCN (OE1); RMSE e intervalos de incertidumbre del TFT, incluyendo la comparación entre el modelo entrenado con vibración+temperatura y el modelo entrenado solo con vibración (OE2); y reducción porcentual de falsos positivos con GNN respecto al sistema sin grafos (OE3).
+
+%%%%%%%%%%%%%%
+% SECCIÓN 5 — RESULTADOS Y DISCUSIÓN
+%%%%%%%%%%%%%%
+\section{Resultados y discusión}
+\label{sec:resultados}
+
+\subsection{Nodo sensor multimodal y detección con TCN (OE1)}
+% Resultados de SNR, caracterización PCB, F1-score, latencia.
+
+\subsection{Pronóstico de vida útil remanente con TFT (OE2)}
+% RMSE, intervalos de incertidumbre, comparación con/sin fusión de temperatura.
+
+\subsection{Modelado de propagación con GNN y validación TRL 7 (OE3)}
+% Reducción de falsos positivos, validación ISO 20816-1:2016.
+
+% Ejemplo de tabla de resultados (reemplazar con datos reales)
+\begin{table}[htb]
+\begin{center}
+\renewcommand\arraystretch{1.3}
+\centering
+\begin{tabular}{l c c c}
+\toprule
+Modelo & F1-score & Latencia (ms) & RMSE RUL \\
+\midrule
+LSTM (línea base, TFE 2021) & -- & -- & -- \\
+TCN (INT8, ESP32-S3) & -- & -- & -- \\
+TFT (vibración) & -- & -- & -- \\
+TFT (vibración + temperatura) & -- & -- & -- \\
+\bottomrule
+\end{tabular}
+\caption{Comparación de desempeño entre arquitecturas (placeholder)}
+\label{tab:resultados-comparativos}
+\end{center}
+\end{table}
+
+%%%%%%%%%%%%%%
+% SECCIÓN 6 — CONCLUSIONES
+%%%%%%%%%%%%%%
+\section{Conclusiones}
+\label{sec:conclusiones}
+
+% Retomar PI-1 y PI-2, vincular con resultados de OE1-OE3,
+% limitaciones del trabajo y líneas futuras.
+
+%%%%%%%%%%%%%%
+% BIBLIOGRAFÍA
+%%%%%%%%%%%%%%
+\newpage
+\nocite{*} % TEMPORAL: muestra todas las refs de Biblio.bib aunque no estén citadas aún.
+           % Borrar esta línea cuando empieces a usar \citep{} / \citet{} en el texto.
+\bibliography{Biblio}
+
+\end{document}
