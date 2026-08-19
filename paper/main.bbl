@@ -1,0 +1,192 @@
+\begin{thebibliography}{26}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Abdulkareem et~al.(2025)Abdulkareem, Anyim, Popoola, Abubakar, and
+  Ayoade]{abdulkareem2025}
+A.~Abdulkareem, T.~Anyim, O.~Popoola, J.~Abubakar, and A.~Ayoade.
+\newblock Prediction of induction motor faults using machine learning.
+\newblock \emph{Heliyon}, page e41493, 2025.
+\newblock \doi{10.1016/j.heliyon.2024.e41493}.
+
+\bibitem[Achouch et~al.(2022)Achouch, Dimitrova, Ziane,
+  Sattarpanah~Karganroudi, Dhouib, Ibrahim, and Adda]{achouch2022}
+M.~Achouch, M.~Dimitrova, K.~Ziane, S.~Sattarpanah~Karganroudi, R.~Dhouib,
+  H.~Ibrahim, and M.~Adda.
+\newblock On predictive maintenance in industry 4.0: Overview, models, and
+  challenges.
+\newblock \emph{Applied Sciences}, 12\penalty0 (16):\penalty0 8081, 2022.
+\newblock \doi{10.3390/app12168081}.
+
+\bibitem[Bai et~al.(2018)Bai, Kolter, and Koltun]{bai2018tcn}
+S.~Bai, J.~Z. Kolter, and V.~Koltun.
+\newblock An empirical evaluation of generic convolutional and recurrent
+  networks for sequence modeling.
+\newblock \emph{arXiv preprint}, 2018.
+
+\bibitem[Bengio et~al.(1994)Bengio, Simard, and Frasconi]{bengio1994}
+Y.~Bengio, P.~Simard, and P.~Frasconi.
+\newblock Learning long-term dependencies with gradient descent is difficult.
+\newblock \emph{IEEE Transactions on Neural Networks}, 5\penalty0 (2):\penalty0
+  157--166, 1994.
+\newblock \doi{10.1109/72.279181}.
+
+\bibitem[Chen et~al.(2023)Chen, Liu, Hu, and Ding]{chen2023}
+D.~Chen, R.~Liu, Q.~Hu, and S.~X. Ding.
+\newblock Interaction-aware graph neural networks for fault diagnosis of
+  complex industrial processes.
+\newblock \emph{IEEE Transactions on Neural Networks and Learning Systems},
+  34\penalty0 (9):\penalty0 6015--6028, 2023.
+\newblock \doi{10.1109/TNNLS.2021.3132376}.
+
+\bibitem[De~León~Sum(2021)]{deleonsum2021}
+J.~P. De~León~Sum.
+\newblock Sistema de código abierto para la predicción de fallas en motores
+  de corriente alterna por vibración.
+\newblock Master's thesis, UTEC, Trabajo Final de Especialización en Robótica
+  e Inteligencia Artificial, 2021.
+
+\bibitem[Duan et~al.(2025)Duan, Chen, Yu, Du, Bao, and Ma]{duan2025}
+H.~Duan, G.~Chen, Y.~Yu, C.~Du, Z.~Bao, and D.~Ma.
+\newblock Dygat-ftnet: A dynamic graph attention network for multi-sensor fault
+  diagnosis and time--frequency data fusion.
+\newblock \emph{Sensors}, 25\penalty0 (3):\penalty0 810, 2025.
+\newblock \doi{10.3390/s25030810}.
+
+\bibitem[Fu et~al.(2024)Fu, Lin, Wang, Guo, Zhao, Zhong, and Zhong]{fu2024}
+S.~Fu, L.~Lin, Y.~Wang, F.~Guo, M.~Zhao, B.~Zhong, and S.~Zhong.
+\newblock Mca-dtcn: A novel dual-task temporal convolutional network with
+  multi-channel attention for first prediction time detection and remaining
+  useful life prediction.
+\newblock \emph{Reliability Engineering \& System Safety}, 241, 2024.
+\newblock \doi{10.1016/j.ress.2023.109703}.
+
+\bibitem[Gupta and Shivhare(2025)]{researchgate2025}
+S.~Gupta and S.~N. Shivhare.
+\newblock Embedded tinyml for predictive maintenance: Vibration analysis on
+  esp32 with real-time fault detection in industrial equipment.
+\newblock \emph{International Journal on Computational Modelling Applications},
+  2\penalty0 (2):\penalty0 1--17, 2025.
+\newblock \doi{10.63503/j.ijcma.2025.114}.
+
+\bibitem[He et~al.(2026)He, Hou, Li, Jin, Yi, Li, and Feng]{he2026}
+X.~He, L.~Hou, C.~Li, Y.~Jin, H.~Yi, Z.~Li, and Y.~Feng.
+\newblock A multi-sensor fault diagnosis method for rotating machinery based on
+  series expansion and cooperation strategy.
+\newblock \emph{Structural Health Monitoring}, 2026.
+\newblock \doi{10.1177/14759217251415198}.
+
+\bibitem[Henao~Villa et~al.(2026)Henao~Villa, Garcia~Arango, Garcés~Giraldo,
+  Meleán~Romero, Valencia-Arias, and Velásquez~Ochoa]{henaovilla2026}
+C.~F. Henao~Villa, D.~A. Garcia~Arango, L.~F. Garcés~Giraldo, R.~A.
+  Meleán~Romero, A.~Valencia-Arias, and J.~A. Velásquez~Ochoa.
+\newblock Artificial intelligence in complex manufacturing systems: A
+  systematic review of validation rigor and deployment readiness in predictive
+  maintenance.
+\newblock \emph{Information}, 17\penalty0 (5):\penalty0 456, 2026.
+\newblock \doi{10.3390/info17050456}.
+
+\bibitem[{IEC}(2007)]{iec60085}
+{IEC}.
+\newblock Iec 60085:2007. electrical insulation --- thermal evaluation and
+  designation, 2007.
+
+\bibitem[{IEEE Motor Reliability Working
+  Group}(1985)]{ieee1985motorreliability}
+{IEEE Motor Reliability Working Group}.
+\newblock Report of large motor reliability survey of industrial and commercial
+  installations, part {I}.
+\newblock \emph{IEEE Transactions on Industry Applications}, IA-21\penalty0
+  (4):\penalty0 853--864, 1985.
+
+\bibitem[{ISO}(2016)]{iso20816}
+{ISO}.
+\newblock Iso 20816-1:2016. mechanical vibration --- measurement and evaluation
+  of machine vibration, 2016.
+
+\bibitem[Jakaria et~al.(2025)Jakaria, Sabir, Rahman, and Ali]{plosone2025}
+J.~M. Jakaria, J.~Sabir, M.~Z. Rahman, and M.~F. Ali.
+\newblock Hybrid deep learning framework for real-time fault detection in
+  squirrel-cage induction motors.
+\newblock \emph{PLOS One}, 20\penalty0 (11):\penalty0 e0336323, 2025.
+\newblock \doi{10.1371/journal.pone.0336323}.
+
+\bibitem[Li et~al.(2022)Li, Zhou, Li, Sun, Yan, and Chen]{li2022gnnbenchmark}
+T.~Li, Z.~Zhou, S.~Li, C.~Sun, R.~Yan, and X.~Chen.
+\newblock The emerging graph neural networks for intelligent fault diagnostics
+  and prognostics: A guideline and a benchmark study.
+\newblock \emph{Mechanical Systems and Signal Processing}, 168:\penalty0
+  108653, 2022.
+\newblock \doi{10.1016/j.ymssp.2021.108653}.
+
+\bibitem[Meng et~al.(2024)]{meng2024}
+Z.~Meng et~al.
+\newblock Gas turbine prognostics via temporal fusion transformer.
+\newblock \emph{The Aeronautical Journal}, 2024.
+\newblock \doi{10.1017/aer.2024.40}.
+
+\bibitem[Periasamy et~al.(2026)Periasamy, Venugopal, and
+  Madhanraj]{periasamy2026}
+B.~Periasamy, P.~R. Venugopal, and R.~Madhanraj.
+\newblock A novel hierarchical temporal--graph physics-guided fusion network
+  for predictive fault diagnosis in robotic arms.
+\newblock pages 619--629, 2026.
+
+\bibitem[Peter et~al.(2023)Peter, Kundi, and Machuve]{peter2023}
+F.~Peter, B.~A.~T. Kundi, and J.~Machuve.
+\newblock Exploring current and future trends of predictive maintenance 4.0 in
+  tanzania: A systematic literature review.
+\newblock \emph{East African Journal of Science, Technology and Innovation},
+  4\penalty0 (Special Issue 2), 2023.
+
+\bibitem[Pham et~al.(2020)Pham, Kim, and Kim]{pham2020}
+M.~T. Pham, J.-M. Kim, and C.~H. Kim.
+\newblock Deep learning-based bearing fault diagnosis method for embedded
+  systems.
+\newblock \emph{Sensors}, 20\penalty0 (23):\penalty0 6886, 2020.
+\newblock \doi{10.3390/s20236886}.
+
+\bibitem[Tiboni et~al.(2022)Tiboni, Remino, Bussola, and Amici]{tiboni2022}
+M.~Tiboni, C.~Remino, R.~Bussola, and C.~Amici.
+\newblock A review on vibration-based condition monitoring of rotating
+  machinery.
+\newblock \emph{Applied Sciences}, 12\penalty0 (3):\penalty0 972, 2022.
+\newblock \doi{10.3390/app12030972}.
+
+\bibitem[{Uruguay XXI}(2024)]{uruguayxxi2024}
+{Uruguay XXI}.
+\newblock Informe agrícola 2024.
+\newblock Uruguay XXI, Centro de Información, 2024.
+\newblock URL
+  \url{https://www.uruguayxxi.gub.uy/es/centro-informacion/articulo/informe-agricola-2024/}.
+
+\bibitem[Vaswani et~al.(2017)Vaswani, Shazeer, Parmar, Uszkoreit, Jones, Gomez,
+  Kaiser, and Polosukhin]{vaswani2017}
+A.~Vaswani, N.~Shazeer, N.~Parmar, J.~Uszkoreit, L.~Jones, A.~N. Gomez,
+  {\L}.~Kaiser, and I.~Polosukhin.
+\newblock Attention is all you need.
+\newblock In \emph{Advances in Neural Information Processing Systems
+  (NeurIPS)}, volume~30, 2017.
+
+\bibitem[Waide and Brunner(2011)]{waide2011}
+P.~Waide and C.~U. Brunner.
+\newblock Energy-efficiency policy opportunities for electric motor-driven
+  systems.
+\newblock Technical Report 2011/07, International Energy Agency (IEA), 2011.
+
+\bibitem[Xiao et~al.(2026)Xiao, Hou, Khan, and Sun]{xiao2026cdgcn}
+S.~Xiao, J.~Hou, M.~J. Khan, and B.~Sun.
+\newblock Cdgcn: A cnn-enhanced dynamic graph convolutional network for
+  multimodal fault diagnosis.
+\newblock \emph{Measurement}, 269:\penalty0 120788, 2026.
+
+\bibitem[Zhang et~al.(2026)Zhang, Zhong, Cui, Liu, Cao, and Li]{zhang2026gcn}
+B.~Zhang, Y.~Zhong, H.~Cui, H.~Liu, Z.~Cao, and J.~Li.
+\newblock Motor fault prediction based on graph convolutional networks with
+  signal association mining.
+\newblock \emph{Procedia Computer Science}, 281:\penalty0 1022--1028, 2026.
+
+\end{thebibliography}
