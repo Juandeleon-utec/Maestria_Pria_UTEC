@@ -1,0 +1,157 @@
+UNIVERSIDAD TECNOLÓGICA  (UTEC)
+
+Maestría en Robótica e Inteligencia Artificial 
+
+Propuesta de Trabajo Final de Maestría 
+
+**Framework Open-Source Distribuido para Monitoreo Predictivo Industrial de Motores de Inducción mediante Edge AI y Arquitecturas de Atención Temporal**
+
+**Juan Pedro de León Sum**
+
+Nombre del tutor/a y co-tutor (opcional) propuestos/as: **A Confirmar**
+
+Línea de investigación principal seleccionada: **Inteligencia Artificial**
+
+Continuidad del proyecto final de Especialización en Robótica e Inteligencia Artificial: **Si**
+
+Junio, 2026
+
+**Resumen**
+
+Esta investigación propone el desarrollo y validación operacional de un sistema distribuido de monitoreo de condición (CBM) de código abierto para motores de inducción trifásicos en una planta agroindustrial uruguaya con más de 100 motores en operación continua. El sistema integra una jerarquía de tres niveles de inteligencia artificial: Temporal Convolutional Networks (TCN) cuantizadas en nodos embebidos ESP32-S3 para detección de anomalías en tiempo real; Temporal Fusion Transformers (TFT) en servidor centralizado para el pronóstico multivariable de Vida Útil Remanente (RUL) con horizonte de 24 horas; y Graph Neural Networks (GNN) para modelar la propagación de vibraciones entre activos adyacentes y reducir falsos positivos. El trabajo constituye una continuación directa del Trabajo Final de Especialización del autor (De León Sum, 2021), elevando el nivel de madurez tecnológica de TRL 4 a TRL 7 mediante el despliegue de 10 nodos en entorno operativo real, bajo la normativa ISO 20816-1:2016. El resultado final será un framework open-source completo — hardware, firmware y dashboards — validado industrialmente y reproducible.
+
+**Palabras clave: ***mantenimiento predictivo · Edge AI · TCN · TFT · GNN · ESP32-S3 · motores de inducción · agroindustria · TRL 7 · open-source.*
+
+**1. Introducción (Justificación y relevancia del tema)**
+
+Los motores de inducción trifásicos representan entre el 40% y el 50% del consumo eléctrico industrial global; el 70% de las fallas mecánicas en plantas de proceso involucran componentes rotatorios (ISO 20816-1:2016). En el sector agroindustrial uruguayo — uno de los pilares de la economía nacional —, la dependencia de estos equipos es especialmente crítica: una falla imprevista durante la temporada de procesamiento puede comprometer lotes completos, generar pérdidas directas de miles de dólares por hora de parada y afectar cadenas de frío de productos perecederos.
+
+La planta agroindustrial donde se desarrollará este trabajo cuenta con más de 100 motores trifásicos en operación continua y opera actualmente con mantenimiento predominantemente correctivo. Asumiendo un costo conservador de parada no planificada de USD 2.000/hora y una reducción del 30% en eventos de falla — resultado documentado en la literatura de PdM (Abdulkareem et al., 2025) —, el retorno sobre la inversión del sistema propuesto puede alcanzarse en menos de seis meses. Esta viabilidad económica motivó la firma del acuerdo formal de acceso a la planta, que constituye el principal activo diferencial de esta propuesta.
+
+Esta propuesta se enmarca en la línea de Inteligencia Artificial Aplicada y constituye una continuación directa del Trabajo Final de Especialización del autor (De León Sum, 2021), donde se validó el uso de redes LSTM para detección de fallas por vibración alcanzando precisión superior al 90% en entorno controlado (TRL 4). Aquel trabajo identificó dos limitaciones estructurales que la presente investigación busca superar: la degradación del gradiente de las LSTM en series temporales largas, y la sensibilidad al ruido EMI del sensor MPU-6050 (bus I²C) en entornos industriales. La presente propuesta eleva el TRL de 4 a 7 migrando a sensores ADXL345 (bus SPI), arquitecturas de atención temporal (TCN + TFT) y análisis topológico de propagación de vibraciones (GNN).
+
+**Preguntas de investigación:**
+
+- PI-1: ¿En qué medida una arquitectura jerárquica TCN+TFT supera las limitaciones de degradación del gradiente e interpretabilidad de las LSTM en series temporales de vibración industrial con alta interferencia electromagnética?
+
+- PI-2: ¿Es posible reducir significativamente la tasa de falsos positivos generada por contaminación cruzada de vibraciones entre activos adyacentes mediante una GNN que modele la topología de propagación en la planta?
+
+**2. Objetivos**
+
+**2.1 Objetivo general**
+
+Desarrollar, implementar y validar operacionalmente un framework distribuido de monitoreo de condición (CBM) de código abierto para motores de inducción trifásicos en entorno industrial real, integrando Edge AI mediante TCN cuantizadas sobre ESP32-S3, pronóstico multivariable de RUL mediante Temporal Fusion Transformers, y análisis de propagación de vibraciones mediante Graph Neural Networks, alcanzando TRL 7 bajo la normativa ISO 20816.
+
+**2.2 Objetivos específicos**
+
+**OE1. **Diseñar y caracterizar un nodo sensor embebido industrial (ESP32-S3 + ADXL345) con capacidad de muestreo a 3,2 kHz y filtrado EMI activo, comparando cuantitativamente su calidad de señal (SNR) frente al sensor MPU-6050 I²C del trabajo de Especialización.
+
+**OE2. **Implementar y evaluar comparativamente modelos TCN cuantizados (INT8) desplegados en el ESP32-S3 frente a la línea de base LSTM, utilizando los datasets CWRU y MAFAULDA, reportando F1-score, latencia y consumo de memoria en hardware real.
+
+**OE3. **Desarrollar y validar una arquitectura TFT para el pronóstico multivariable de RUL con horizonte de 24 horas, entrenada con datos recolectados desde los nodos desplegados en la planta, reportando RMSE e intervalos de incertidumbre.
+
+**OE4. **Desplegar y validar operacionalmente la red de 10 nodos en la planta agroindustrial, evaluando la capacidad de una GNN para discriminar vibraciones cruzadas entre activos adyacentes bajo la normativa ISO 20816-1:2016.
+
+**3. Estado del arte**
+
+La literatura reciente muestra una transición del mantenimiento correctivo al predictivo (PdM) mediante IoT y aprendizaje profundo, organizable en tres capas argumentativas que justifican esta propuesta.
+
+**Limitaciones de arquitecturas recurrentes.** Modelos híbridos CNN-GRU y CNN-LSTM han alcanzado ~92% de precisión en motores de jaula de ardilla, pero su desempeño depende de la captura simultánea de características temporales y espaciales sin resolver la interpretabilidad (PLOS One, 2025). Abdulkareem et al. (2025) reportaron 89–91% con k-NN y ANN, señalando escasa generalización ante tipos de falla no contemplados en el entrenamiento. Pham et al. (2020), pioneros en diagnóstico embebido, documentaron las restricciones de memoria de CNN convencionales en microcontroladores de bajo costo.
+
+**Soluciones emergentes y brechas.** Un trabajo con ESP32 + ADXL345 logró >92% de precisión con TinyML para clasificación de fallas mecánicas (ResearchGate, 2025) — validando el hardware propuesto —, pero se limita a clasificación binaria sin pronóstico de RUL. Fu et al. (2024) propusieron la arquitectura MCA-DTCN (TCN + atención multi-canal) reduciendo el RMSE en predicción de RUL hasta un 5,5% respecto a LSTM. El TFT fue aplicado exitosamente al pronóstico de turbinas de gas industriales (Cambridge UP, 2024), superando a LSTM en horizontes >12 horas, aunque con datos de simulación. He et al. (2026) y Duan et al. (2025) demostraron la eficacia de GNN para diagnóstico multi-sensor en maquinaria rotatoria, modelando la interacción entre nodos sin topología predefinida — pero exclusivamente en laboratorio.
+
+**Brecha que justifica esta propuesta.** Ningún trabajo publicado reúne simultáneamente: arquitectura jerárquica TCN+TFT+GNN, validación en planta industrial real (TRL 7), hardware embebido de bajo costo y carácter open-source. Esta propuesta cierra esa brecha en el contexto específico de la agroindustria uruguaya, subrepresentada en la literatura internacional de PdM.
+
+**4. Metodología**
+
+Se utilizará un enfoque experimental aplicado estructurado en cuatro fases secuenciales, cada una correspondiente a un objetivo específico:
+
+- Fase 1 — Hardware y fundamentos (meses 1–3, TRL 5–6): Diseño de PCB en KiCad con filtrado EMI (planos de masa, bus SPI, capacitores SMD). Fabricación de prototipo y caracterización de SNR comparativa vs. MPU-6050. Configuración del entorno de servidor centralizado (Proxmox, InfluxDB, Grafana).
+
+- Fase 2 — Edge AI (meses 3–5, TRL 6): Desarrollo de firmware en ESP-IDF + FreeRTOS (muestreo a 3,2 kHz en Core 1, inferencia TCN en Core 0). Entrenamiento de modelos TCN con datasets CWRU y MAFAULDA, cuantización INT8 con TensorFlow Lite Micro, evaluación comparativa contra LSTM.
+
+- Fase 3 — Modelos de servidor y datos reales (meses 5–8, TRL 6–7): Instalación de 10 nodos en planta (3 motores críticos, 4 relevantes, 3 baseline). Recolección de datos reales (mínimo 4 semanas). Entrenamiento y ajuste fino del TFT (transfer learning desde CWRU si los eventos de falla son insuficientes). Construcción del grafo de propagación de vibraciones y entrenamiento de GNN.
+
+- Fase 4 — Validación y diseminación (meses 8–9, TRL 7): Validación de métricas ISO 20816-1:2016. Medición de reducción de falsos positivos con GNN. Redacción del artículo científico (con aval del tutor) y del Trabajo Final. Defensa (Seminario Final).
+
+Los criterios de evaluación incluyen: F1-score y latencia de inferencia (OE2), RMSE e intervalos de incertidumbre del TFT (OE3), y reducción porcentual de falsos positivos con GNN respecto al sistema sin grafos (OE4).
+
+**4.1 Gestión de riesgos**
+
+| **Riesgo** | **Prob.** | **Impacto** | **Mitigación** |
+| --- | --- | --- | --- |
+| Interferencia EMI severa en planta | **Alta** | **Alto** | Bus SPI + planos de masa + capacitores SMD. Validación de SNR antes del despliegue masivo. |
+| Inestabilidad Wi-Fi industrial | **Media** | **Medio** | MQTT QoS 1 + buffer PSRAM 8 MB. Evaluación de migración a 5 GHz si pérdida >5%. |
+| Memoria insuficiente ESP32-S3 para TCN | **Media** | **Medio** | Arquitectura TCN shallow inicial (4–6 capas). Cuantización INT8 obligatoria. Profiler TFLite Micro. |
+| Demora en definición del tutor | **Media** | **Alto** | Gestión de tutor como primera actividad del mes 1. Tres candidatos identificados del cuerpo docente UTEC/FURG. |
+| Insuficiencia de datos de falla real en planta | **Media** | **Medio** | Transfer learning desde CWRU/MAFAULDA + fine-tuning con datos propios. Data augmentation (SMOTE). |
+| Cambios en acceso a la planta | **Baja** | **Alto** | Acuerdo formalizado institucionalmente. Datasets públicos como escenario de validación alternativo (TRL 5). |
+
+**5. Cronograma preliminar de actividades**
+
+*Tabla 1. Cronograma de actividades — septiembre 2026 a mayo 2027.*
+
+| **Actividad** | **Sep** | **Oct** | **Nov** | **Dic** | **Ene** | **Feb** | **Mar** | **Abr** | **May** |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Gestión del tutor principal |  |  |  |  |  |  |  |  |  |
+| Diseño PCB + caracterización SNR (OE1) |  |  |  |  |  |  |  |  |  |
+| Config. servidor Proxmox/InfluxDB (OE3) |  |  |  |  |  |  |  |  |  |
+| Firmware ESP-IDF + FreeRTOS (OE2) |  |  |  |  |  |  |  |  |  |
+| Entrenamiento TCN: CWRU/MAFAULDA (OE2) |  |  |  |  |  |  |  |  |  |
+| Cuantización INT8 + evaluación vs. LSTM (OE2) |  |  |  |  |  |  |  |  |  |
+| Instalación 10 nodos en planta (OE4) |  |  |  |  |  |  |  |  |  |
+| Recolección datos reales (OE3/OE4) |  |  |  |  |  |  |  |  |  |
+| Entrenamiento TFT con datos de planta (OE3) |  |  |  |  |  |  |  |  |  |
+| Construcción grafo + entrenamiento GNN (OE4) |  |  |  |  |  |  |  |  |  |
+| Validación ISO 20816 + métricas (OE4) |  |  |  |  |  |  |  |  |  |
+| Redacción artículo científico |  |  |  |  |  |  |  |  |  |
+| Redacción Trabajo Final de Maestría |  |  |  |  |  |  |  |  |  |
+| Seminario Final (defensa) |  |  |  |  |  |  |  |  |  |
+
+**Inicio estimado: septiembre 2026. Resultados prel**iminares ya disponibles: prototipo ESP32-S3+ADXL345 parcial, servidor Proxmox configurado, acceso a planta formalizado, línea de base LSTM documentada (De León, 2021), y artículo científico registrado en 2026 IEEE URUCON (paper ID 1571307323, junio 2026).**
+
+**6. Resultados esperados**
+
+- OE1 — Nodo sensor validado: comparación cuantitativa de SNR entre ADXL345 (SPI) y MPU-6050 (I²C) en entorno industrial real, con PCB fabricada y caracterizada.
+
+- OE2 — Evaluación comparativa TCN vs. LSTM: F1-score >92% en detección de anomalías con latencia de inferencia <50 ms en hardware ESP32-S3, con mejora estadísticamente significativa respecto a la línea de base del trabajo de Especialización.
+
+- OE3 — Modelo TFT validado: pronóstico de RUL con horizonte de 24 horas sobre datos reales de planta, con RMSE e intervalos de incertidumbre documentados y comparados contra línea de base LSTM.
+
+- OE4 — Sistema integrado operativo (TRL 7): red de 10 nodos desplegada en planta agroindustrial con reducción medida de falsos positivos mediante GNN, validada bajo ISO 20816-1:2016.
+
+- Artículo científico enviado y registrado en conferencia IEEE indexada: "Open-Source Predictive Maintenance System for AC Induction Motors Using LSTM Neural Networks and Low-Cost Embedded Hardware", 2026 IEEE URUCON (IEEE Xplore, paper ID 1571307323, junio 2026), con aval institucional de UTEC. El trabajo documenta la línea de base experimental del trabajo de Especialización (LSTM, 95.30% de precisión) sobre la cual se construye la presente propuesta de Maestría.
+
+- Framework open-source publicado (licencia MIT): hardware (archivos KiCad), firmware (ESP-IDF), modelos entrenados y dashboards Grafana, reproducible por terceros.
+
+**Referencias bibliográficas**
+
+- Abdulkareem, A., Anyim, T., Popoola, O., Abubakar, J., & Ayoade, A. (2025). Prediction of induction motor faults using machine learning. Heliyon, e41493. https://doi.org/10.1016/j.heliyon.2024.e41493
+
+- Chen, D., Liu, R., Hu, Q., & Ding, S. X. (2023). Interaction-Aware Graph Neural Networks for Fault Diagnosis of Complex Industrial Processes. IEEE Transactions on Neural Networks and Learning Systems, 34(9), 6015–6028. https://doi.org/10.1109/TNNLS.2021.3132376
+
+- De León Sum, J. P. (2021). Sistema de código abierto para la predicción de fallas en motores de corriente alterna por vibración. Trabajo Final de Especialización en Robótica e Inteligencia Artificial, UTEC.
+
+- Duan, H., Chen, G., Yu, Y., Du, C., Bao, Z., & Ma, D. (2025). DyGAT-FTNet: A Dynamic Graph Attention Network for Multi-Sensor Fault Diagnosis and Time–Frequency Data Fusion. Sensors, 25(3), 810. https://doi.org/10.3390/s25030810
+
+- Fu, S., Lin, L., Wang, Y., Guo, F., Zhao, M., Zhong, B., & Zhong, S. (2024). MCA-DTCN: A novel dual-task temporal convolutional network with multi-channel attention for first prediction time detection and remaining useful life prediction. Reliability Engineering & System Safety, 241. https://doi.org/10.1016/j.ress.2023.109703
+
+- He, X., Hou, L., Li, C., Jin, Y., Yi, H., Li, Z., & Feng, Y. (2026). A multi-sensor fault diagnosis method for rotating machinery based on series expansion and cooperation strategy. Structural Health Monitoring. https://doi.org/10.1177/14759217251415198
+
+- Hybrid deep learning framework for real-time fault detection in squirrel-cage induction motors. (2025). PLOS One. https://doi.org/10.1371/journal.pone.0336323
+
+- IEC 60085:2007. Electrical insulation — Thermal evaluation and designation.
+
+- ISO 20816-1:2016. Mechanical vibration — Measurement and evaluation of machine vibration.
+
+- Meng, Z., et al. (2024). Gas turbine prognostics via Temporal Fusion Transformer. The Aeronautical Journal. https://doi.org/10.1017/aer.2024.40
+
+- Pham, M. T., Kim, J.-M., & Kim, C. H. (2020). Deep Learning-Based Bearing Fault Diagnosis Method for Embedded Systems. Sensors, 20(23), 6886. https://doi.org/10.3390/s20236886
+
+- ScienceDirect. (2026). Edge AI-powered vibration monitoring system with IEPE sensors for predictive maintenance in industrial machinery. https://doi.org/10.1016/j.sciaf.2026.e02658
+
+- TinyML for Predictive Maintenance: Vibration Analysis on ESP32 with Real-Time Fault Detection. (2025). ResearchGate. https://www.researchgate.net/publication/395334243
+
+- Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., & Polosukhin, I. (2017). Attention is all you need. Advances in Neural Information Processing Systems (NeurIPS), 30.
+
+De León Sum, J.P. — Propuesta TFM — UTEC Maestría PRIA 2026 — Pág.
