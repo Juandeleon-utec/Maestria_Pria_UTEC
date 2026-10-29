@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite the paper below."
+title: "Open-Source Predictive Maintenance System for AC Induction Motors"
+version: "v0.1-urucon2026"
+license: MIT
+authors:
+  - family-names: "de León Sum"
+    given-names: "Juan Pedro"
+    affiliation: "Universidad Tecnológica (UTEC), Uruguay"
+  - family-names: "Gonçalves"
+    given-names: "Eder Mateus"
+    affiliation: "Universidade Federal do Rio Grande (FURG), Brazil"
+preferred-citation:
+  type: conference-paper
+  title: "Open-Source Predictive Maintenance System for AC Induction Motors Using LSTM Neural Networks and Low-Cost Embedded Hardware"
+  authors:
+    - family-names: "de León Sum"
+      given-names: "Juan Pedro"
+    - family-names: "Gonçalves"
+      given-names: "Eder Mateus"
+  conference:
+    name: "IEEE URUCON 2026"
+  year: 2026
+references:
+  - type: thesis
+    title: "Sistema de código abierto para la predicción de fallas en motores de corriente alterna por vibración"
+    authors:
+      - family-names: "de León Sum"
+        given-names: "Juan Pedro"
+    year: 2026
+    doi: "10.5281/zenodo.21135685"
